@@ -24,12 +24,12 @@ namespace InventoryMasterNew.Controllers
         /// CONTENT: all Aisle in the database
         /// </returns>
         /// <example>
-        /// GET: api/AisleData/listaisle
+        /// GET: api/aisledata/listaisle
         /// </example>
         [HttpGet]
         [ResponseType(typeof(AisleDto))]
-        // GET: api/ItemData
-        public IHttpActionResult ListItems()
+        // GET: api/AisleData
+        public IHttpActionResult ListAisle()
         {
             List<Aisle> Aisles = db.Aisles.ToList();
             List<AisleDto> AislesDtos = new List<AisleDto>();
@@ -44,6 +44,22 @@ namespace InventoryMasterNew.Controllers
 
             return Ok(AislesDtos);
         }
+
+        /// <summary>
+        /// Updates a particular aisle in the system with POST Data input
+        /// </summary>
+        /// <param name="id">Represents the aisle ID primary key</param>
+        /// <param name="aisle">JSON FORM DATA of an aisle</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// POST: api/aisledata/updateaisle/2
+        /// </example>
 
         // PUT: api/AisleData/5
         [ResponseType(typeof(void))]
@@ -80,6 +96,23 @@ namespace InventoryMasterNew.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+
+
+
+        /// <summary>
+        /// Adds an aisle to the system
+        /// </summary>
+        /// <param name="aisle">JSON FORM DATA of an aisle</param>
+        /// <returns>
+        /// HEADER: 201 (Created)
+        /// CONTENT: aisle ID, aisle Data
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// </returns>
+        /// <example>
+        /// POST: api/aisleData/Addaisle
+        /// </example>
         // POST: api/AisleData
         [ResponseType(typeof(Aisle))]
         public IHttpActionResult AddAisle(Aisle aisle)
@@ -94,6 +127,22 @@ namespace InventoryMasterNew.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = aisle.AisleId }, aisle);
         }
+
+
+
+
+        /// <summary>
+        /// Deletes an aisle from the system by it's ID.
+        /// </summary>
+        /// <param name="id">The primary key of the aisle</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/aisleData/Deleteaisle/2
+        /// </example>
 
         // DELETE: api/AisleData/5
         [ResponseType(typeof(Aisle))]
