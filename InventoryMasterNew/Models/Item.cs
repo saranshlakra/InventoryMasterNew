@@ -50,4 +50,21 @@ namespace InventoryMasterNew.Models
     public virtual Aisle Aisle { get; set; }
     
     }
+
+    public class ItemViewModel
+    {
+        public int Id { get; set; }
+
+        public string ItemName { get; set; }
+
+        public string ItemType { get; set; }
+
+        public int ItemCount { get; set; } = 0;
+       
+        public DateTime BBD { get; set; }
+
+        public IEnumerable<AisleDto> AisleList { get; set; }
+        
+
+    }
 }

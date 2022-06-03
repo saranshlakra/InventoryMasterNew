@@ -34,6 +34,7 @@ namespace InventoryMasterNew.Models
             return new ApplicationDbContext();
         }
 
+        public System.Data.Entity.DbSet<InventoryMasterNew.Models.ItemDto> ItemDtoes { get; set; }
     }
 
 
