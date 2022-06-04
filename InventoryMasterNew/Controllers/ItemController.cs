@@ -37,8 +37,8 @@ namespace InventoryMasterNew.Controllers
             //Debug.WriteLine("Number of items");
             //Debug.WriteLine(items.Count());
 
-            //objective: communicate with our animal data api to retrieve a list of animals
-            //curl https://localhost:44324/api/animaldata/listanimals
+            //objective: communicate with our item data api to retrieve a list of items
+            //curl https://localhost:44324/api/itemdata/listitems
 
 
             string url = "itemdata/listitems";
@@ -49,8 +49,8 @@ namespace InventoryMasterNew.Controllers
 
             IEnumerable<ItemDto> items
                 = response.Content.ReadAsAsync<IEnumerable<ItemDto>>().Result;
-            //Debug.WriteLine("Number of animals received : ");
-            //Debug.WriteLine(animals.Count());
+            //Debug.WriteLine("Number of item received : ");
+            //Debug.WriteLine(items.Count());
 
 
 
@@ -86,7 +86,7 @@ namespace InventoryMasterNew.Controllers
             //Debug.WriteLine("the json payload is :");
             //Debug.WriteLine(item.itemName);
             //objective: add a new item into our system using the API
-            //curl -H "Content-Type:application/json" -d @animal.json https://localhost:44324/api/animaldata/addanimal 
+            //curl -H "Content-Type:application/json" -d @item.json https://localhost:44324/api/animaldata/addanimal 
             string url = "itemdata/AddItem";
 
 
