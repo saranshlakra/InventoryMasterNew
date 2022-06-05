@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Diagnostics;
 using InventoryMasterNew.Models;
 using System.Web.Script.Serialization;
+using InventoryMasterNew.Models.ViewModels;
 
 namespace InventoryMasterNew.Controllers
 {
@@ -60,7 +61,38 @@ namespace InventoryMasterNew.Controllers
         // GET: Item/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            ItemDto ViewModel = new ItemDto();
+
+            //objective: communicate with our Item data api to retrieve one Item
+            //curl https://localhost:44324/api/itemdata/finditem/{id}
+
+            string url = "itemdata/finditem/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+          //  Debug.WriteLine("The response code is ");
+            //Debug.WriteLine(response.StatusCode);
+
+            ItemDto SelectedItem = response.Content.ReadAsAsync<ItemDto>().Result;
+          //  Debug.WriteLine("item received : ");
+          //  Debug.WriteLine(SelectedItem.ItemName);
+
+            ViewModel = SelectedItem;
+
+            ////show associated aisle with this item
+            //url = "aisledata/listaisleforitem/" + id;
+            //response = client.GetAsync(url).Result;
+            //IEnumerable<AisleDto> ResponsibleAisle = response.Content.ReadAsAsync<IEnumerable<AisleDto>>().Result;
+
+          //  ViewModel.ResponsibleKeepers = ResponsibleAisle;
+
+            //url = "keeperdata/listkeepersnotcaringforitem/" + id;
+            //response = client.GetAsync(url).Result;
+            //IEnumerable<AisleDto> AvailableKeepers = response.Content.ReadAsAsync<IEnumerable<AisleDto>>().Result;
+
+            //ViewModel.AvailableAisle = AvailableAisle;
+
+
+            return View(ViewModel);
         }
 
         // GET: Item/Create
@@ -110,44 +142,75 @@ namespace InventoryMasterNew.Controllers
         // GET: Item/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            ItemViewModel ViewModelDto = new ItemViewModel();
+
+            
+            string url = "itemdata/finditem/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            ItemDto SelectedItem = response.Content.ReadAsAsync<ItemDto>().Result;
+            ViewModelDto.Id = SelectedItem.Id;
+            ViewModelDto.ItemName = SelectedItem.ItemName;
+            ViewModelDto.ItemType = SelectedItem.ItemType;
+            ViewModelDto.BBD = SelectedItem.BBD;
+            ViewModelDto.ItemCount = SelectedItem.ItemCount;
+
+
+           url = "aisledata/ListAisle";
+           response = client.GetAsync(url).Result;
+
+            IEnumerable<AisleDto> Aisles = response.Content.ReadAsAsync<IEnumerable<AisleDto>>().Result;
+
+            ViewModelDto.AisleList = Aisles;
+            return View(ViewModelDto);
         }
 
         // POST: Item/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(int id, Item item)
         {
-            try
+            string url = "itemdata/updateitem/" + id;
+            string jsonpayload = jss.Serialize(item);
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            Debug.WriteLine(content);
+            if (response.IsSuccessStatusCode)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
-            catch
+            else
             {
-                return View();
+                return RedirectToAction("Error");
             }
         }
 
         // GET: Item/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            string url = "itemdata/finditem/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            ItemDto selecteditem = response.Content.ReadAsAsync<ItemDto>().Result;
+            return View(selecteditem);
         }
 
         // POST: Item/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+            string url = "itemdata/deleteitem/" + id;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
             }
         }
     }

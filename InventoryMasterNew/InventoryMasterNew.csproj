@@ -184,10 +184,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AisleController.cs" />
     <Compile Include="Controllers\AisleDataController.cs" />
+    <Compile Include="Controllers\DetailsItems.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ItemDataController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Models\UpdateItem.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -275,11 +277,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Item\List.cshtml" />
     <Content Include="Views\Item\New.cshtml" />
+    <Content Include="Views\Aisle\List.cshtml" />
+    <Content Include="Views\Item\Edit.cshtml" />
+    <Content Include="Views\Item\Delete.cshtml" />
+    <Content Include="Views\Item\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Aisle\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -191,6 +191,8 @@ namespace InventoryMasterNew.Controllers
         /// FORM DATA: (empty)
         /// </example>
 
+
+        [HttpPost]
         // DELETE: api/ItemData/5
         [ResponseType(typeof(Item))]
         public IHttpActionResult DeleteItem(int id)
