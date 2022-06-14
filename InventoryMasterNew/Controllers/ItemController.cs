@@ -64,7 +64,7 @@ namespace InventoryMasterNew.Controllers
             ItemDto ViewModel = new ItemDto();
 
             //objective: communicate with our Item data api to retrieve one Item
-            //curl https://localhost:44324/api/itemdata/finditem/{id}
+            //curl https://localhost:44382/api/itemdata/finditem/{id}
 
             string url = "itemdata/finditem/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;

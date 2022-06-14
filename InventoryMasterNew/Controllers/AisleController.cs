@@ -41,77 +41,147 @@ namespace InventoryMasterNew.Controllers
             return View(aisles);
         }
 
-        // GET: Aisle/Details/5
+        // GET: Aisle/Details/1
         public ActionResult Details(int id)
         {
-            return View();
+            AisleDto ViewModel = new AisleDto();
+
+            //objective: communicate with our aisle data api to retrieve one aisle info
+            //curl https://localhost:44382/api/aisledata/findaisle/{id}
+
+            string url = "aisledata/findaisle/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            Debug.WriteLine("The response code is ");
+            Debug.WriteLine(response.StatusCode);
+
+           AisleDto SelectedAisle = response.Content.ReadAsAsync<AisleDto>().Result;
+            //Debug.WriteLine("aisle received : ");
+            //Debug.WriteLine(SelectedAisle.Name);
+
+            ViewModel = SelectedAisle;
+
+            return View(ViewModel);
         }
 
+       // [HttpGet]
         // GET: Aisle/Create
-        public ActionResult Create()
+        public ActionResult New()
         {
+            AisleViewModel aisle = new AisleViewModel();
 
-           
-            return View();
+            // it will find view with the name of method if view() is empty
+            string url = "aisledata/ListAisle";
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            IEnumerable<AisleViewModel> Aisles = response.Content.ReadAsAsync<IEnumerable<AisleViewModel>>().Result;
+
+          //  aisle.AisleList = Aisles;
+
+            return View(aisle);
         }
 
-        // POST: Aisle/Create
+        // POST: Item/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Aisle aisle)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            //Debug.WriteLine("the json payload is :");
+            //Debug.WriteLine(item.itemName);
+            //objective: add a new item into our system using the API
+            //curl -H "Content-Type:application/json" -d @item.json https://localhost:44382/api/aisledata/addaisle
+            string url = "aisledata/addAisle";
 
-                return RedirectToAction("Index");
-            }
-            catch
+
+            string jsonpayload = jss.Serialize(aisle);
+            Debug.WriteLine(jsonpayload);
+
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
             }
         }
+
 
         // GET: Aisle/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            AisleViewModel ViewModelDto = new AisleViewModel();
+
+
+            string url = "aisledata/findaisle/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            AisleDto SelectedItem = response.Content.ReadAsAsync<AisleDto>().Result;
+            ViewModelDto.AisleId = SelectedItem.AisleId;
+            ViewModelDto.Name = SelectedItem.Name;
+            ViewModelDto.Desc = SelectedItem.Desc;
+            ViewModelDto.AisleCap = SelectedItem.AisleCap;
+
+
+            url = "aisledata/ListAisle";
+            response = client.GetAsync(url).Result;
+
+            IEnumerable<AisleDto> Aisles = response.Content.ReadAsAsync<IEnumerable<AisleDto>>().Result;
+
+            ViewModelDto.AisleList = Aisles;
+            return View(ViewModelDto);
         }
 
         // POST: Aisle/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Update(int id, FormCollection collection, object aisle)
         {
-            try
-            {
-                // TODO: Add update logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+            string url = "aisledata/updateaisle/" + id;
+            string jsonpayload = jss.Serialize(aisle);
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            Debug.WriteLine(content);
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
             }
         }
 
-        // GET: Aisle/Delete/5
+        // GET: Aisle/Delete/1
         public ActionResult Delete(int id)
         {
-            return View();
+            string url = "aisledata/findaisle/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            AisleDto selectedaisle = response.Content.ReadAsAsync<AisleDto>().Result;
+            return View(selectedaisle);
         }
 
-        // POST: Aisle/Delete/5
+        // POST: Item/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+            string url = "aisledata/deleteaisle/" + id;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            if (response.IsSuccessStatusCode)
             {
-                return View();
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Error");
             }
         }
     }

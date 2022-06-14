@@ -45,6 +45,42 @@ namespace InventoryMasterNew.Controllers
             return Ok(AislesDtos);
         }
 
+
+        /// <summary>
+        /// Gathers information about all items 
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: all items in the database, 
+        /// </returns>
+        /// <param name="id">primary key of item.</param>
+        /// <example>
+        /// GET: api/aisleData/findaisle/3
+        /// </example>
+
+
+        [HttpGet]
+        // GET: api/ItemData/5
+        [ResponseType(typeof(Aisle))]
+        public IHttpActionResult FindAisle(int id)
+
+        {
+            Aisle Aisle = db.Aisles.Find(id);
+            AisleDto AisleDto = new AisleDto()
+            {
+                AisleId = Aisle.AisleId,
+                Name = Aisle.Name,
+                Desc = Aisle.Desc,
+                AisleCap = Aisle.AisleCap
+            };
+            if (Aisle == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(AisleDto);
+        }
+
         /// <summary>
         /// Updates a particular aisle in the system with POST Data input
         /// </summary>
@@ -61,6 +97,7 @@ namespace InventoryMasterNew.Controllers
         /// POST: api/aisledata/updateaisle/2
         /// </example>
 
+        [HttpPost]
         // PUT: api/AisleData/5
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateAisle(int id, Aisle aisle)
@@ -114,6 +151,7 @@ namespace InventoryMasterNew.Controllers
         /// POST: api/aisleData/Addaisle
         /// </example>
         // POST: api/AisleData
+        [HttpPost]
         [ResponseType(typeof(Aisle))]
         public IHttpActionResult AddAisle(Aisle aisle)
         {
@@ -144,6 +182,7 @@ namespace InventoryMasterNew.Controllers
         /// POST: api/aisleData/Deleteaisle/2
         /// </example>
 
+        [HttpPost]
         // DELETE: api/AisleData/5
         [ResponseType(typeof(Aisle))]
         public IHttpActionResult DeleteAisle(int id)

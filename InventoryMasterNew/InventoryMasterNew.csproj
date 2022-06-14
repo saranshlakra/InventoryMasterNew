@@ -281,6 +281,10 @@
     <Content Include="Views\Item\Edit.cshtml" />
     <Content Include="Views\Item\Delete.cshtml" />
     <Content Include="Views\Item\Details.cshtml" />
+    <Content Include="Views\Aisle\Details.cshtml" />
+    <Content Include="Views\Aisle\New.cshtml" />
+    <Content Include="Views\Aisle\Edit.cshtml" />
+    <Content Include="Views\Aisle\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
