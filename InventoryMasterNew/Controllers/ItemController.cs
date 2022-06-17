@@ -78,18 +78,18 @@ namespace InventoryMasterNew.Controllers
 
             ViewModel = SelectedItem;
 
-            ////show associated aisle with this item
-            //url = "aisledata/listaisleforitem/" + id;
-            //response = client.GetAsync(url).Result;
-            //IEnumerable<AisleDto> ResponsibleAisle = response.Content.ReadAsAsync<IEnumerable<AisleDto>>().Result;
+            //show associated aisle with this item
+           // url = "aisledata/listaisleforitem/" + id;
+           // response = client.GetAsync(url).Result;
+           // IEnumerable<AisleDto> ResponsibleAisle = response.Content.ReadAsAsync<IEnumerable<AisleDto>>().Result;
 
-          //  ViewModel.ResponsibleKeepers = ResponsibleAisle;
+           //ViewModel.ResponsibleAisle = ResponsibleAisle;
 
-            //url = "keeperdata/listkeepersnotcaringforitem/" + id;
-            //response = client.GetAsync(url).Result;
-            //IEnumerable<AisleDto> AvailableKeepers = response.Content.ReadAsAsync<IEnumerable<AisleDto>>().Result;
+            url = "aisledata/findaisle/" + id;
+            response = client.GetAsync(url).Result;
+            AisleDto AvailableAisle = response.Content.ReadAsAsync<AisleDto>().Result;
 
-            //ViewModel.AvailableAisle = AvailableAisle;
+            ViewModel.AvailableAisle = AvailableAisle;
 
 
             return View(ViewModel);

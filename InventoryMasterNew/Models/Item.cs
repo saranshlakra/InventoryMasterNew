@@ -48,7 +48,8 @@ namespace InventoryMasterNew.Models
     public int AisleId { get; set; }
     // 
     public virtual Aisle Aisle { get; set; }
-    
+        public object AvailableAisle { get; internal set; }
+        public IEnumerable<AisleDto> ResponsibleAisle { get; internal set; }
     }
 
     public class ItemViewModel
