@@ -17,7 +17,7 @@ Database:
    2. Aisle
    
 Present features:
- Items: 
+  Items: 
    1. Add New Items
    2. Update any existing item
    3. Delete item
