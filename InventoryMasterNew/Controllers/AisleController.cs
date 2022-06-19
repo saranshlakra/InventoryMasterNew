@@ -137,7 +137,7 @@ namespace InventoryMasterNew.Controllers
 
         // POST: Aisle/Edit/5
         [HttpPost]
-        public ActionResult Update(int id, FormCollection collection, object aisle)
+        public ActionResult Update(int id, Aisle aisle)
         {
 
             string url = "aisledata/updateaisle/" + id;

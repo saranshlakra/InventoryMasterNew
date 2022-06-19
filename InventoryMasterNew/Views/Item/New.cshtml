@@ -46,9 +46,9 @@
         </div>
     </div>
 
-    <div>
+    <div style="margin-left: 11.5%">
         <label>Aisle:</label>
-        <select name="AisleId">
+        <select name="AisleId"style="width: 5.5%; margin-left: 2.2% ">
             @foreach (var Aisle in Model.AisleList)
             {
                 <option value="@Aisle.AisleId">@Aisle.AisleId</option>
@@ -67,7 +67,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input style="background-color: cornflowerblue; color: white;" type="submit" value="Create" class="btn btn-default" />
         </div>
     </div>
 </div>
